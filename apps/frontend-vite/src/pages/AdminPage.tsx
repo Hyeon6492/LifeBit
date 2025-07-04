@@ -100,6 +100,7 @@ export const AdminPage = () => {
     currentPage: 'admin' // 어드민 페이지임을 명시
   });
 
+  // 👉 회원 관리 탭, 운동/음식 카탈로그 탭 전환 상태
   const [activeTab, setActiveTab] = useState<'catalog' | 'food' | 'users'>('catalog');
   const [catalogs, setCatalogs] = useState<CatalogItem[]>([]);
   const [foodCatalogs, setFoodCatalogs] = useState<FoodCatalogItem[]>([]);
@@ -333,6 +334,7 @@ export const AdminPage = () => {
     fetchDashboardData();
   }, [selectedPeriod]);
 
+  // 👉 사용자 목록을 서버에서 불러오는 함수
   const fetchUsers = async () => {
     try {
       const res = await axiosInstance.get('/api/admin/users');
@@ -382,6 +384,7 @@ export const AdminPage = () => {
     checkAdminAccess();
   }, [navigate, toast]);
 
+  // 👉 운동 카탈로그를 서버에서 불러오는 함수
   const fetchCatalogs = async () => {
     try {
       const res = await axiosInstance.get('/api/exercises/admin/catalog');
@@ -395,6 +398,7 @@ export const AdminPage = () => {
     }
   };
 
+  // 👉 음식 카탈로그를 서버에서 불러오는 함수
   const fetchFoodCatalogs = async () => {
     try {
       const res = await axiosInstance.get('/api/diet/admin/food-catalog');
@@ -443,7 +447,7 @@ export const AdminPage = () => {
     }
   };
 
-  // 운동 카탈로그 수정 모달 열기
+  // 👉 운동 카탈로그 수정 모달 열기 함수
   const handleEdit = (catalog: CatalogItem) => {
     setEditingCatalog({
       exerciseCatalogId: catalog.exerciseCatalogId,
@@ -455,7 +459,7 @@ export const AdminPage = () => {
     setShowEditModal(true);
   };
 
-  // 운동 카탈로그 삭제 함수
+  // 👉 운동 카탈로그 삭제 함수
   const handleDeleteCatalog = async (catalogId: number) => {
     try {
       await axiosInstance.delete(`/api/exercises/admin/catalog/${catalogId}`);
@@ -481,7 +485,7 @@ export const AdminPage = () => {
     }
   };
 
-  // 운동 카탈로그 수정 처리
+  // 👉 운동 카탈로그 수정 처리 함수
   const handleUpdateCatalog = async () => {
     if (!editingCatalog) return;
     
@@ -528,7 +532,7 @@ export const AdminPage = () => {
     }
   };
 
-  // 음식 카탈로그 수정 모달 열기
+  // 👉 음식 카탈로그 수정 모달 열기 함수
   const handleEditFood = (food: FoodCatalogItem) => {
     setEditingFoodCatalog({
       foodItemId: food.foodItemId,
@@ -542,7 +546,7 @@ export const AdminPage = () => {
     setShowEditFoodModal(true);
   };
 
-  // 음식 카탈로그 수정 처리
+  // 👉 음식 카탈로그 수정 처리 함수
   const handleUpdateFoodCatalog = async () => {
     if (!editingFoodCatalog) return;
     
@@ -587,7 +591,7 @@ export const AdminPage = () => {
     }
   };
 
-  // 음식 카탈로그 삭제 함수
+  // 👉 음식 카탈로그 삭제 함수
   const handleDeleteFoodCatalog = async (foodId: number) => {
     try {
       await axiosInstance.delete(`/api/diet/admin/food-catalog/${foodId}`);
@@ -631,6 +635,7 @@ export const AdminPage = () => {
   
   const indexOfLast = currentPage * usersPerPage;
   const indexOfFirst = indexOfLast - usersPerPage;
+  // 👉 현재 탭에 따라 보여줄 목록을 계산하는 부분
   let currentList: User[] | FoodCatalogItem[] | CatalogItem[] = [];
   if (activeTab === 'users') {
     const sortedUsers = [...users];
@@ -697,6 +702,7 @@ export const AdminPage = () => {
     currentList = sortedCatalogs.slice(indexOfFirst, indexOfLast);
   }
 
+  // 👉 페이지네이션 관련 함수들
   const goToFirstPage = () => setCurrentPage(1);
   const goToLastPage = () => setCurrentPage(totalPages);
   const goToPreviousPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
@@ -711,6 +717,7 @@ export const AdminPage = () => {
     return [currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2];
   };
 
+  // 👉 회원/운동/음식 테이블 정렬 함수들
   const handleSort = (key: keyof User) => {
     setSortConfig(prev => {
       if (prev && prev.key === key) {

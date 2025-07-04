@@ -8,7 +8,9 @@ interface UseWebSocketConnectionProps {
   currentPage?: string; // 현재 페이지 정보
 }
 
-export const useWebSocketConnection = ({ userId, enabled = true, currentPage = 'unknown' }: UseWebSocketConnectionProps) => {
+export const useWebSocketConnection = ({
+  userId, enabled = true, currentPage = 'unknown' }
+  : UseWebSocketConnectionProps) => {
   const [isConnected, setIsConnected] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
 
@@ -26,7 +28,7 @@ export const useWebSocketConnection = ({ userId, enabled = true, currentPage = '
 
     // WebSocket URL 생성
     const wsUrl = `ws://${API_CONFIG.BASE_URL.replace('http://', '')}/ws/health/${userId}?token=${encodeURIComponent(token)}`;
-    
+
     console.log('🔗 [WebSocket] 연결 시도:', { userId, wsUrl });
 
     try {
@@ -36,7 +38,7 @@ export const useWebSocketConnection = ({ userId, enabled = true, currentPage = '
       ws.onopen = () => {
         console.log('✅ [WebSocket] 연결 성공 - 사용자 ID:', userId);
         setIsConnected(true);
-        
+
         // 연결 후 현재 페이지 정보 전송
         if (currentPage) {
           try {
