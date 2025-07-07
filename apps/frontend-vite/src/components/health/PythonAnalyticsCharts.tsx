@@ -1242,7 +1242,7 @@ export const PythonAnalyticsCharts: React.FC<PythonAnalyticsChartsProps> = ({
             {getPeriodLabel()} 건강 데이터를 종합 분석하여 맞춤형 인사이트를 제공합니다.
           </p>
         </div>
-        <Button onClick={handleRefresh} disabled={isRefreshing}>
+        <Button onClick={handleRefresh} disabled={isRefreshing} style={{ display: 'none' }}>
           <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
           새로고침
         </Button>
